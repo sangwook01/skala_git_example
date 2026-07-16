@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>최소, 최대값 찾기</title>
+</head>
+<body>
+
+    <h1>최소값 최대값 찾기</h1>
+    <p>숫자를 쉼표(,)로 구분하여 입력하세요.</p>
+
+    <!-- 입력창과 버튼 -->
+    <input type="text" id="numInput" value="10,25,7,33,15,2,40">
+    <button onclick="calculate()">실행</button>
+
+    <!-- 결과를 출력할 빈 공간 -->
+    <h3 id="result"></h3>
+
+    <script>
+        function calculate() {
+            // 1. 입력창에 적힌 글자 가져오기
+            const txt = document.getElementById("numInput").value;
+
+            // 2. 쉼표(,) 기준으로 쪼개서 진짜 숫자 배열로 바꾸기
+            const arr = txt.split(",").map(Number);
+
+            // 3. Math 함수로 최소값, 최대값 구하기
+            const min = Math.min(...arr);
+            const max = Math.max(...arr);
+
+            // 4. 화면에 출력하기
+            document.getElementById("result").innerText = `최소값: ${min}, 최대값: ${max}`;
+        }
+    </script>
+
+</body>
+</html>

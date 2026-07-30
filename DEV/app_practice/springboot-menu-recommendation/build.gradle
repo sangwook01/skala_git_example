@@ -27,8 +27,12 @@ tasks.withType(JavaCompile).configureEach {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+// lombok을 사용하기 위한 의존성 추가
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
 }
 
 tasks.named('test') {

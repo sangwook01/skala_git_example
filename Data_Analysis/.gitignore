@@ -1,0 +1,62 @@
+# ==========================================
+# 데이터 파일 및 대용량 파일 (Data & Large Files)
+# ==========================================
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.jsonl
+*.zip
+*.tar.gz
+*.h5
+*.pkl
+*.pickle
+
+# ==========================================
+# Python 및 가상환경 (Python & Virtual Environments)
+# ==========================================
+# 바이트코드 및 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상환경 (Virtualenvs)
+.venv/
+venv/
+ENV/
+env/
+.conda/
+
+# Jupyter Notebook 관련
+.ipynb_checkpoints/
+
+# ==========================================
+# 환경 변수 및 보안 관련 (Environment & Credentials)
+# ==========================================
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+
+# ==========================================
+# OS 및 에디터 설정 (OS & IDE Configurations)
+# ==========================================
+# macOS
+.DS_Store
+
+# VS Code / Cursor AI
+.vscode/
+.cursor/
+
+# IntelliJ / PyCharm
+.idea/
+
+# ==========================================
+# 빌드 output (Build & Dist)
+# ==========================================
+build/
+dist/
+*.egg-info/
+*.jar

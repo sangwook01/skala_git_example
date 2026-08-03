@@ -1,0 +1,9 @@
+[
+    {"month": "2024-01", "region": "Seoul", "category": "Electronics", "amount": 1500},
+    {"month": "2024-02", "region": "Busan", "category": "Clothing", "amount": 800},
+    {"month": "2024-03", "region": "Incheon", "category": "Grocery", "amount": 1200},
+    {"month": "2024-01", "region": "Daegu", "category": "None", "amount": 2000},
+    {"month": "", "region": "Seoul", "category": "Furniture", "amount": 500},       
+    {"month": "2024-02", "region": "", "category": "Grocery", "amount": 700},       
+    {"month": "2024-03", "region": "Busan", "category": "Electronics", "amount": -100}
+]

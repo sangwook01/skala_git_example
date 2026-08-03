@@ -1,0 +1,29 @@
+[
+  {
+    "row": {
+      "month": "",
+      "region": "Seoul",
+      "category": "Furniture",
+      "amount": 500
+    },
+    "error": "1 validation error for SalesRecord\nmonth\n  Value error, 빈 값은 허용되지 않습니다. [type=value_error, input_value='', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+  },
+  {
+    "row": {
+      "month": "2024-02",
+      "region": "",
+      "category": "Grocery",
+      "amount": 700
+    },
+    "error": "1 validation error for SalesRecord\nregion\n  Value error, 빈 값은 허용되지 않습니다. [type=value_error, input_value='', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+  },
+  {
+    "row": {
+      "month": "2024-03",
+      "region": "Busan",
+      "category": "Electronics",
+      "amount": -100
+    },
+    "error": "1 validation error for SalesRecord\namount\n  Input should be greater than 0 [type=greater_than, input_value=-100, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than"
+  }
+]

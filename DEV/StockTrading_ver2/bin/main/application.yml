@@ -14,7 +14,7 @@ spring:
       path: /h2-console
   
   jpa:
-    defer-datasource-initialization: true
+    defer-datasource-initialization: true # 이미 jpa에 맞게 구현되어 있음
     hibernate:
       ddl-auto: create-drop
     show-sql: true

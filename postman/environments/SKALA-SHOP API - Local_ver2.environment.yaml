@@ -1,0 +1,4 @@
+name: SKALA-SHOP API - Local_ver2
+values:
+  - key: baseUrl
+    value: 'http://localhost:8080'

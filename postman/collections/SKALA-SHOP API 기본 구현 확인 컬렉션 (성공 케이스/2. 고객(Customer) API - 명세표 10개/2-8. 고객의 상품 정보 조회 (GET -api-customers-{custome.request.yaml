@@ -1,0 +1,9 @@
+$kind: http-request
+name: 2-8. 고객의 상품 정보 조회 (GET /api/customers/{customerId}/products)
+url: "{{baseUrl}}/api/customers/{{customerId}}/products"
+method: GET
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 OK', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 8000

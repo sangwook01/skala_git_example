@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-y. [예외 - 2-9 취소 API] 로그인 없이 취소 시도 (401 UNAUTHORIZED)
+url: "{{baseUrl}}/api/customers/cancel"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('로그인 전 취소 시도 -> 401 UNAUTHORIZED', function () { pm.response.to.have.status(401); });
+    language: text/javascript
+order: 5000

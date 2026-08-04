@@ -1,0 +1,8 @@
+$kind: collection
+name: SKALA-SHOP API 기본 구현 확인 컬렉션 (성공 케이스 + 신규 기능)
+description: API 목록 표에 있는 15개 API가 실제로 구현되어 있음을 보여주는 성공 케이스 위주 컬렉션 + 신규로 추가한 특별할인/선착순 이벤트 기능. 예외 케이스는 포함하지 않음(별도 컬렉션 참고).
+variables:
+  baseUrl: http://localhost:8080
+  customerId: ""
+  newProductId: ""
+  flashEventId: ""

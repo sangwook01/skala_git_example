@@ -1,0 +1,17 @@
+$kind: http-request
+name: 3-6-예외3. 다른 고객이 품절된 이벤트 참여 시도 (409 EVENT_SOLD_OUT)
+url: "{{baseUrl}}/api/promotions/events/{{flashEventId}}/join"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('잔여 수량 0(품절) -> 409 EVENT_SOLD_OUT', function () { pm.response.to.have.status(409); });
+    language: text/javascript
+order: 12000

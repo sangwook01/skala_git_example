@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-7. 고객의 상품 주문 (POST /api/customers/order)
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 OK', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 7000

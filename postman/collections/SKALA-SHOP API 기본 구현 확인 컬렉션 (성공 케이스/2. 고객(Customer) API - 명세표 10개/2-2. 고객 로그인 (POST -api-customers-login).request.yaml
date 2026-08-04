@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-2. 고객 로그인 (POST /api/customers/login)
+url: "{{baseUrl}}/api/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 OK', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 2000

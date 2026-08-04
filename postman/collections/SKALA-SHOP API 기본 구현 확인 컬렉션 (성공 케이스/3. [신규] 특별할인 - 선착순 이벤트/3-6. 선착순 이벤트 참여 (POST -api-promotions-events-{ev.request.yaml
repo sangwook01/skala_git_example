@@ -1,0 +1,17 @@
+$kind: http-request
+name: 3-6. 선착순 이벤트 참여 (POST /api/promotions/events/{eventId}/join)
+url: "{{baseUrl}}/api/promotions/events/{{flashEventId}}/join"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 OK', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 6000

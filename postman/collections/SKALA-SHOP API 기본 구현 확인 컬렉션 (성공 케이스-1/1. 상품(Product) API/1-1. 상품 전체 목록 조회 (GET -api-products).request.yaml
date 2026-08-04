@@ -1,0 +1,12 @@
+$kind: http-request
+name: 1-1. 상품 전체 목록 조회 (GET /api/products)
+url: "{{baseUrl}}/api/products?offset=0&count=10"
+method: GET
+queryParams:
+  offset: "0"
+  count: "10"
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 1000

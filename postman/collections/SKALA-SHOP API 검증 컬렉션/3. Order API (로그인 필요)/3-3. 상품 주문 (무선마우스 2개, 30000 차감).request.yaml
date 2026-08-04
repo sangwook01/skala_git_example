@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('무선마우스(15000) 2개 주문 -> 970000 포인트 남음', function () {
+          const json = pm.response.json();
+          pm.expect(json.data).to.include('970000');
+      });
+    language: text/javascript
+order: 3000

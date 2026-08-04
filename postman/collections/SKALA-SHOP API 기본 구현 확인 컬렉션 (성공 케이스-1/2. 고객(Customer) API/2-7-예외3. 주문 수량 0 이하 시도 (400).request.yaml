@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 0
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('수량 0 이하 -> 400 ParameterException', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 18000

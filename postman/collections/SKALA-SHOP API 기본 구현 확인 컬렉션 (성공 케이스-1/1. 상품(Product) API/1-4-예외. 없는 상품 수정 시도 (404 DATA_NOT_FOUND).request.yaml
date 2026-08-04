@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/api/products"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id": 999999,
+      "productName": "없는상품",
+      "productPrice": 1000
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('없는 상품 수정 -> 404 DATA_NOT_FOUND', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 8000

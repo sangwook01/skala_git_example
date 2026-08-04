@@ -1,0 +1,22 @@
+$kind: http-request
+name: 2-1. 고객 정보 추가 (회원가입, POST /api/customers)
+url: "{{baseUrl}}/api/customers"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "pw1234",
+      "customerName": "{{customerId}}_name"
+    }
+scripts:
+  - type: beforeRequest
+    code: pm.collectionVariables.set('customerId', 'skala_' + Date.now());
+    language: text/javascript
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 1000

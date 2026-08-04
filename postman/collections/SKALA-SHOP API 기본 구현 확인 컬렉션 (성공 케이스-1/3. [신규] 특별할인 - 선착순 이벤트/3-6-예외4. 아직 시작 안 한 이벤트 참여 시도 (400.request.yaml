@@ -1,0 +1,17 @@
+$kind: http-request
+name: 3-6-예외4. 아직 시작 안 한 이벤트 참여 시도 (400 EVENT_NOT_AVAILABLE)
+url: "{{baseUrl}}/api/promotions/events/{{futureEventId}}/join"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('시작 전 이벤트 참여 -> 400 EVENT_NOT_AVAILABLE', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 14000

@@ -1,0 +1,12 @@
+$kind: http-request
+name: 2-5. 고객 전체 목록 조회 (GET /api/customers)
+url: "{{baseUrl}}/api/customers?offset=0&count=10"
+method: GET
+queryParams:
+  offset: "0"
+  count: "10"
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 OK', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 5000

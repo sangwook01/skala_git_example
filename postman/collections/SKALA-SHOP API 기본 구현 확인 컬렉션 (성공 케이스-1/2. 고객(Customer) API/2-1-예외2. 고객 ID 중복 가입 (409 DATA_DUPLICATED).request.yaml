@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('고객 ID 중복 -> 409 DATA_DUPLICATED', function () { pm.response.to.have.status(409); });
+    language: text/javascript
+order: 3000

@@ -1,0 +1,15 @@
+# Use this workspace to collaborate
+workspace:
+  id: 39e3aeb3-80ac-45c1-83bd-88c18fdded13
+
+localResources:
+  documents:
+    - ../README.md
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/SKALA-SHOP API 검증 컬렉션: 729340cc-1f59-44f0-8a98-e84ebf3d2920
+    ../postman/collections/SKALA-SHOP API 기본 구현 확인 컬렉션 (성공 케이스: 4bc5627a-a36f-4b40-a4a8-26ea3006bd49
+    ../postman/collections/SKALA-SHOP API 기본 구현 확인 컬렉션 (성공 케이스-1: e60f3c08-bff5-4152-accd-e3bfe39790f0

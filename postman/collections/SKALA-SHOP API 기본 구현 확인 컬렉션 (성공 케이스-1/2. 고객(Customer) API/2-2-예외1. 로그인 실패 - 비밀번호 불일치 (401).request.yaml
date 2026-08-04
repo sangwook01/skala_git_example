@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "wrong-password"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('비밀번호 불일치 -> 401', function () { pm.response.to.have.status(401); });
+    language: text/javascript
+order: 6000

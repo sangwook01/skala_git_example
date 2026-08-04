@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/{{customerId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('초기 포인트 100만, 주문 목록 비어있음', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.customerPoint).to.eql(1000000.0);
+          pm.expect(json.data.products).to.be.an('array').that.is.empty;
+      });
+    language: text/javascript
+order: 5000

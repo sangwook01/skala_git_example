@@ -1,0 +1,10 @@
+$kind: collection
+name: SKALA-SHOP API 기본 구현 확인 컬렉션 (성공 케이스 + 예외 케이스 + 신규 기능)
+description: API 목록 표 15개 각각의 성공 케이스 바로 아래에 관련 예외 케이스를 함께 배치. 특별할인/선착순 이벤트 신규 기능도 동일한 방식으로 포함.
+variables:
+  baseUrl: http://localhost:8080
+  customerId: ""
+  newProductId: ""
+  flashEventId: ""
+  futureEventId: ""
+  soldoutCustomerId: ""

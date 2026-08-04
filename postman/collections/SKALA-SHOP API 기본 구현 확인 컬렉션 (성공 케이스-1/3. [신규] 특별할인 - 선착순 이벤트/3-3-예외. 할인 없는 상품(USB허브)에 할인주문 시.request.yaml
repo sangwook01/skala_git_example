@@ -1,0 +1,18 @@
+$kind: http-request
+name: 3-3-예외. 할인 없는 상품(USB허브)에 할인주문 시도 (400 DISCOUNT_NOT_AVAILABLE)
+url: "{{baseUrl}}/api/promotions/discounts/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 3,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('할인 미등록 상품 -> 400 DISCOUNT_NOT_AVAILABLE', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 4000

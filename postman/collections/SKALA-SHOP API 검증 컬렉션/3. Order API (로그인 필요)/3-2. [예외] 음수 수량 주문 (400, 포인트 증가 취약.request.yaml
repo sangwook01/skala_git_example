@@ -1,0 +1,21 @@
+$kind: http-request
+name: 3-2. [예외] 음수 수량 주문 (400, 포인트 증가 취약점 수정 확인)
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": -5
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('음수 수량 주문 -> 400 (수량 검증 버그 수정 확인)', function () {
+          pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 2000

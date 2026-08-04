@@ -1,0 +1,26 @@
+$kind: http-request
+name: 1-5. 상품 등록 (신규 상품 - id 자동생성 버그 수정 확인)
+url: "{{baseUrl}}/api/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productName": "기계식키보드",
+      "productPrice": 89000
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('id가 자동 생성되어 null이 아님 (id=0 강제세팅 버그 수정 확인)', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.id).to.not.be.null;
+          pm.collectionVariables.set('newProductId', json.data.id);
+      });
+    language: text/javascript
+order: 5000

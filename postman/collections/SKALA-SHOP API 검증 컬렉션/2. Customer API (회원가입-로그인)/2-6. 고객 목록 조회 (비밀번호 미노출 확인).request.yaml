@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers?offset=0&count=10"
+method: GET
+queryParams:
+  offset: "0"
+  count: "10"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('목록에 비밀번호가 노출되지 않음 (비밀번호 노출 버그 수정 확인)', function () {
+          const json = pm.response.json();
+          json.data.content.forEach(c => pm.expect(c.customerPassword).to.be.null);
+      });
+    language: text/javascript
+order: 6000

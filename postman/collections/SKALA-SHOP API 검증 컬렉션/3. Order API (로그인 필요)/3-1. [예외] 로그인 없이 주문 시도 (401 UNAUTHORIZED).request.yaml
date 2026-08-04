@@ -1,0 +1,21 @@
+$kind: http-request
+description: 이 요청 전에 미리 쿠키를 지운 상태에서 실행하세요(Postman 우측 상단 Cookies에서 bff-access 삭제 후 실행). 컬렉션 순서대로 실행하면 2-4 로그인 요청 이전에 위치하므로 자동으로 쿠키가 없는 상태입니다.
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('로그인 쿠키 없이 주문 -> 401', function () {
+          pm.response.to.have.status(401);
+      });
+    language: text/javascript
+order: 1000

@@ -1,0 +1,18 @@
+$kind: http-request
+name: 3-3. 할인가로 상품 주문 (POST /api/promotions/discounts/order)
+url: "{{baseUrl}}/api/promotions/discounts/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 2,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 1743

@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-6-예외. 없는 고객 정보 수정 시도 (404 DATA_NOT_FOUND)
+url: "{{baseUrl}}/api/customers"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "no-such-customer-xyz",
+      "customerPoint": 1000
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('없는 고객 수정 -> 404', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 14000

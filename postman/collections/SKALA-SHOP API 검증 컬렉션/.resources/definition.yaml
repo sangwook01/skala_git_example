@@ -1,0 +1,7 @@
+$kind: collection
+name: SKALA-SHOP API 검증 컬렉션
+description: 실습과제 명세 기반 SKALA-SHOP API 전체 시나리오 + 예외 케이스 + 버그 수정 확인용 Postman 컬렉션
+variables:
+  baseUrl: http://localhost:8080
+  customerId: ""
+  newProductId: ""

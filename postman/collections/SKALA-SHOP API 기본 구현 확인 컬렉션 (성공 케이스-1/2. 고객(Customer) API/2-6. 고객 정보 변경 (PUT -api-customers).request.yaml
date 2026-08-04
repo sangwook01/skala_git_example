@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-6. 고객 정보 변경 (PUT /api/customers)
+url: "{{baseUrl}}/api/customers"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPoint": 1000000
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 13000

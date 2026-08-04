@@ -1,0 +1,24 @@
+$kind: http-request
+name: 1-5-예외. 이미 삭제된 상품 재삭제 시도 (404 DATA_NOT_FOUND)
+url: "{{baseUrl}}/api/products"
+method: DELETE
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id": "{{newProductId}}"
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      const id = pm.collectionVariables.get('newProductId');
+      let body = JSON.parse(pm.request.body.raw);
+      body.id = Number(id);
+      pm.request.body.update({mode: 'raw', raw: JSON.stringify(body)});
+    language: text/javascript
+  - type: afterResponse
+    code: pm.test('방금 삭제되어 이미 없는 상품 재삭제 -> 404 DATA_NOT_FOUND', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 10000

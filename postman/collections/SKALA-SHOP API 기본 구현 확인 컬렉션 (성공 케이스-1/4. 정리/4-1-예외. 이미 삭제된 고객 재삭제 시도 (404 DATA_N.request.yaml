@@ -1,0 +1,9 @@
+$kind: http-request
+name: 4-1-예외. 이미 삭제된 고객 재삭제 시도 (404 DATA_NOT_FOUND)
+url: "{{baseUrl}}/api/customers/{{customerId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: pm.test('이미 삭제된 고객 재삭제 -> 404', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 2000

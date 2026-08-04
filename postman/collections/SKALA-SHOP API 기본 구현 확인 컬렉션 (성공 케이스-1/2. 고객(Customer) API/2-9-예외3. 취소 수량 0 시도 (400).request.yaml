@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/cancel"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 0
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('취소 수량 0 -> 400', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 22000

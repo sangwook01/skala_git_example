@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productName": "기계식키보드",
+      "productPrice": 89000
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상품명 중복 등록 -> 409 DATA_DUPLICATED', function () {
+          pm.response.to.have.status(409);
+      });
+    language: text/javascript
+order: 6000

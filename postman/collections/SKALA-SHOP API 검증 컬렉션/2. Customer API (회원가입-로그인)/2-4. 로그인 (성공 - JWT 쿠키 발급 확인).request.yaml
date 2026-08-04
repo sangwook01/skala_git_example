@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('로그인 쿠키(bff-access)가 발급됨', function () {
+          pm.expect(pm.cookies.has('bff-access')).to.be.true;
+      });
+      pm.test('응답에 비밀번호가 노출되지 않음', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.customerPassword).to.be.null;
+      });
+    language: text/javascript
+order: 4000

@@ -1,0 +1,25 @@
+$kind: http-request
+name: 3-4. 상품 재주문 (같은 상품 1개 추가 -> 수량 누적 확인)
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('추가 1개 주문 -> 15000 추가 차감(955000 남음)', function () {
+          const json = pm.response.json();
+          pm.expect(json.data).to.include('955000');
+      });
+    language: text/javascript
+order: 4000

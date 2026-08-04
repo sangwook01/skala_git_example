@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-7-예외2. 포인트 부족으로 주문 실패 (400 INSUFFICIENT_FUNDS)
+url: "{{baseUrl}}/api/customers/order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 1000
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('포인트 부족 -> 400 INSUFFICIENT_FUNDS', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 17000

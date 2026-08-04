@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/{{customerId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('주문 수량이 누적되어 3개로 표시됨', function () {
+          const json = pm.response.json();
+          const item = json.data.products.find(p => p.productId === 1);
+          pm.expect(item).to.not.be.undefined;
+          pm.expect(item.quantity).to.eql(3);
+      });
+    language: text/javascript
+order: 5000

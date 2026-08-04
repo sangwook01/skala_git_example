@@ -1,0 +1,9 @@
+$kind: http-request
+name: 3-5. 선착순 이벤트 조회 (GET /api/promotions/events/{eventId})
+url: "{{baseUrl}}/api/promotions/events/{{flashEventId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 6000

@@ -1,0 +1,35 @@
+$kind: http-request
+name: 2-1. 회원가입 (초기 포인트 고정 지급 확인)
+url: "{{baseUrl}}/api/customers"
+method: GET
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customerId}}",
+      "customerPassword": "pw1234",
+      "customerPoint": 999999999
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      // 매 실행마다 새로운 고객 ID 생성 (DATA_DUPLICATED 방지)
+      pm.collectionVariables.set('customerId', 'skala_' + Date.now());
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('요청에 customerPoint를 실어 보내도 무시되고 100만 포인트만 지급됨 (포인트 조작 방지 버그 수정 확인)', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.customerPoint).to.eql(1000000.0);
+      });
+      pm.test('응답에 비밀번호가 노출되지 않음', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.customerPassword).to.be.null;
+      });
+    language: text/javascript
+order: 1470

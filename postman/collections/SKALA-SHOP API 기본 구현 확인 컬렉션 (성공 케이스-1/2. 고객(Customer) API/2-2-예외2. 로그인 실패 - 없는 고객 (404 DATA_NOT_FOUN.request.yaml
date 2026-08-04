@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-2-예외2. 로그인 실패 - 없는 고객 (404 DATA_NOT_FOUND)
+url: "{{baseUrl}}/api/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "no-such-customer-xyz",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('없는 고객으로 로그인 -> 404 DATA_NOT_FOUND', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 7000

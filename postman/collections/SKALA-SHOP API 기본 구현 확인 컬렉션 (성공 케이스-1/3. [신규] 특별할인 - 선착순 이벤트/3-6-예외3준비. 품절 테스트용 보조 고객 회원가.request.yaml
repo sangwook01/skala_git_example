@@ -1,0 +1,21 @@
+$kind: http-request
+name: 3-6-예외3준비. 품절 테스트용 보조 고객 회원가입
+url: "{{baseUrl}}/api/customers"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{soldoutCustomerId}}",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: beforeRequest
+    code: pm.collectionVariables.set('soldoutCustomerId', 'soldout_' + Date.now());
+    language: text/javascript
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 10000

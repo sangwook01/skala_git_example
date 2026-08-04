@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productName": "",
+      "productPrice": 0
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('필수값 누락 -> 400 ParameterException', function () {
+          pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 7000

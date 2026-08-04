@@ -1,0 +1,33 @@
+$kind: http-request
+url: "{{baseUrl}}/api/products"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id": "{{newProductId}}",
+      "productName": "기계식키보드(적축)",
+      "productPrice": 95000
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      // newProductId를 body에 실제 값으로 치환
+      const id = pm.collectionVariables.get('newProductId');
+      let body = JSON.parse(pm.request.body.raw);
+      body.id = Number(id);
+      pm.request.body.update({mode: 'raw', raw: JSON.stringify(body)});
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('가격이 수정됨', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.productPrice).to.eql(95000);
+      });
+    language: text/javascript
+order: 8000

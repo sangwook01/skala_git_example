@@ -1,0 +1,17 @@
+$kind: http-request
+name: 3-6-예외1. 같은 고객 재참여 시도 (409 EVENT_ALREADY_PARTICIPATED)
+url: "{{baseUrl}}/api/promotions/events/{{flashEventId}}/join"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('같은 고객 재참여 -> 409 EVENT_ALREADY_PARTICIPATED', function () { pm.response.to.have.status(409); });
+    language: text/javascript
+order: 8000

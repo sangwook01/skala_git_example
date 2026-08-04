@@ -1,0 +1,18 @@
+$kind: http-request
+name: 2-9-예외1. 없는 상품으로 취소 시도 (404 DATA_NOT_FOUND)
+url: "{{baseUrl}}/api/customers/cancel"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 999999,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('없는 상품으로 취소 -> 404', function () { pm.response.to.have.status(404); });
+    language: text/javascript
+order: 20000

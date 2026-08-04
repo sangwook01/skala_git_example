@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/api/customers/cancel"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('상태 200 OK', function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test('1개 취소 -> 15000 환급(970000 남음)', function () {
+          const json = pm.response.json();
+          pm.expect(json.data).to.include('970000');
+      });
+    language: text/javascript
+order: 9000

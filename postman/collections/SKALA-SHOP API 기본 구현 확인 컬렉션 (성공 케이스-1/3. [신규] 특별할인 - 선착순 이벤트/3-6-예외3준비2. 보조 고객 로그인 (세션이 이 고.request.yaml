@@ -1,0 +1,18 @@
+$kind: http-request
+name: 3-6-예외3준비2. 보조 고객 로그인 (세션이 이 고객으로 전환됨)
+url: "{{baseUrl}}/api/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{soldoutCustomerId}}",
+      "customerPassword": "pw1234"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('상태 200 확인', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 11000

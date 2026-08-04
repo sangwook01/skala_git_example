@@ -1,0 +1,14 @@
+$kind: http-request
+name: 3-11. 내 주문 확인 (전량 취소 후 항목 삭제 및 포인트 원복 확인)
+url: "{{baseUrl}}/api/customers/{{customerId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('전량 취소 후 주문 목록이 비어있음(0이면 삭제 로직 확인)', function () {
+          const json = pm.response.json();
+          pm.expect(json.data.customerPoint).to.eql(1000000.0);
+          pm.expect(json.data.products).to.be.an('array').that.is.empty;
+      });
+    language: text/javascript
+order: 11000

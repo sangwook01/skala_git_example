@@ -1,0 +1,6 @@
+#!/Users/sangwook/SKALA_practice/Data_Analysis/Day2/판교캠퍼스_1반_김상욱_day2종합실습/Day2_practice/bin/python3.11
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())

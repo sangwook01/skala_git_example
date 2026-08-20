@@ -1,0 +1,92 @@
+### 1. 사용자 지정 제외 항목 ###
+SmartDATA/
+
+### 2. macOS / OS 시스템 파일 ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon\r\r
+Thumbs.db
+
+### 3. Java & Gradle (Spring Boot / 백엔드) ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### 4. IDE 및 에디터 설정 파일 ###
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code / Cursor
+.vscode/
+.cursor/
+*.code-workspace
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+### 5. Python & 데이터 분석 (Jupyter / EDA) ###
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+*.env
+
+### 6. 데이터셋 & 대용량 파일 (CSV, Excel, ML 모델 등) ###
+# 정형/반정형 데이터 파일
+*.csv
+*.tsv
+*.xlsx
+*.xls
+
+# 빅데이터 및 압축/바이너리 데이터
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# 데이터베이스 덤프 및 로컬 DB 파일
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+*.dump
+
+# ML/DL 모델 가중치 및 체크포인트
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+*.ckpt
+
+# 대용량 압축 데이터
+*.zip
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+### 7. 로그 및 로컬 설정 / 임시 파일 ###
+*.log
+*.tmp
+*.bak
+*.swp
+local.properties
+application-local.yml
+application-local.properties

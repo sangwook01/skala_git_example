@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}미니 게시판{% endblock %} · SKALA</title>
+  <style>
+    :root {
+      --bg:       #0b0a0c;
+      --card:     #17151a;
+      --card-2:   #1e1b21;
+      --line:     #2c272f;
+      --line-2:   #3a343e;
+      --text:     #f2eef0;
+      --muted:    #948d97;
+      --red:      #ff3b2f;
+      --red-deep: #c8140c;
+      --orange:   #ff8a3d;
+      --teal:     #4fd1a5;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 40px 16px 72px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                   "Malgun Gothic", "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(58% 42% at 12% -6%,  rgba(255, 59, 47, 0.20), transparent 62%),
+        radial-gradient(50% 38% at 96% 8%,   rgba(255, 138, 61, 0.13), transparent 60%),
+        radial-gradient(70% 55% at 50% 108%, rgba(200, 20, 12, 0.16), transparent 66%);
+    }
+    body::after {
+      content: "";
+      position: fixed; right: -18%; bottom: -32%;
+      width: 90vw; height: 90vw; border-radius: 50%;
+      border: 1px solid rgba(255, 110, 60, 0.14);
+      pointer-events: none; z-index: 0;
+    }
+
+    .wrap { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+
+    header { margin-bottom: 26px; }
+    .brand {
+      display: inline-block;
+      padding: 7px 20px 8px; margin-bottom: 18px;
+      border: 1.5px solid var(--red); border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,59,47,0.10), rgba(200,20,12,0.03));
+      font-size: 15px; font-weight: 800; letter-spacing: 2.5px; color: #fff;
+      text-shadow: 0 0 14px rgba(255, 59, 47, 0.55);
+      box-shadow: 0 0 0 1px rgba(255,59,47,0.18), 0 0 22px rgba(255,59,47,0.30),
+                  inset 0 0 18px rgba(255,59,47,0.14);
+      text-decoration: none;
+    }
+    h1 {
+      margin: 0 0 8px; font-size: 30px; letter-spacing: -0.8px; font-weight: 800;
+      background: linear-gradient(92deg, #ffffff 12%, #ffb9a8 62%, var(--red) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    h1 a { color: inherit; text-decoration: none; }
+    .sub { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .tiers { display: flex; gap: 8px; align-items: center; margin-top: 18px;
+             font-size: 12px; flex-wrap: wrap; }
+    .tier { background: var(--card); border: 1px solid var(--line-2);
+            border-radius: 999px; padding: 5px 14px; font-weight: 700; }
+    .tier.web { color: var(--muted); }
+    .tier.was { color: var(--orange); border-color: rgba(255,138,61,0.42);
+                box-shadow: 0 0 14px rgba(255,138,61,0.14); }
+    .tier.db  { color: var(--teal);   border-color: rgba(79,209,165,0.38);
+                box-shadow: 0 0 14px rgba(79,209,165,0.12); }
+    .arw { color: #5c545f; font-weight: 700; }
+
+    .card {
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+      border: 1px solid var(--line); border-radius: 14px;
+      padding: 24px; margin-bottom: 20px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+    .card h2 { margin: 0 0 16px; font-size: 16px; font-weight: 700;
+               display: flex; align-items: center; gap: 9px; }
+    .card h2::before {
+      content: ""; width: 3px; height: 15px; border-radius: 2px;
+      background: linear-gradient(180deg, var(--red), var(--orange));
+      box-shadow: 0 0 10px rgba(255,59,47,0.6);
+    }
+
+    label { display: block; font-size: 12.5px; font-weight: 700;
+            margin-bottom: 5px; color: #cfc7d0; }
+    input, textarea {
+      width: 100%; padding: 10px 12px; margin-bottom: 14px;
+      border: 1px solid var(--line-2); border-radius: 8px;
+      font-size: 14px; font-family: inherit; background: #100e12; color: var(--text);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    input::placeholder, textarea::placeholder { color: #6c646f; }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(255,59,47,0.16);
+    }
+    textarea { resize: vertical; min-height: 120px; }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(180deg, #ff4b3c, var(--red-deep));
+      color: #fff; border: 0; border-radius: 8px; padding: 11px 22px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; text-decoration: none; line-height: 1.3;
+      white-space: nowrap; flex: 0 0 auto;
+      box-shadow: 0 0 20px rgba(255,59,47,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: filter .15s;
+    }
+    .btn:hover { filter: brightness(1.12); }
+    .btn.ghost {
+      background: transparent; border: 1px solid var(--line-2);
+      color: var(--muted); box-shadow: none;
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--muted); }
+    .btn.danger { background: transparent; border: 1px solid rgba(255,59,47,0.5);
+                  color: #ff6a5c; box-shadow: none; }
+    .btn.danger:hover { background: rgba(255,59,47,0.10); }
+
+    .row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .row > div { flex: 1 1 220px; }
+    .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .spacer { flex: 1; }
+
+    .flash { border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+             font-size: 13.5px; border: 1px solid; }
+    .flash.ok    { color: var(--teal); border-color: rgba(79,209,165,0.4);
+                   background: rgba(79,209,165,0.07); }
+    .flash.error { color: #ff6a5c; border-color: rgba(255,59,47,0.4);
+                   background: rgba(255,59,47,0.07); }
+
+    .search { display: flex; gap: 10px; margin-bottom: 4px; }
+    .search input { margin-bottom: 0; }
+
+    .post { border-bottom: 1px solid var(--line); padding: 16px 0 16px 14px;
+            position: relative; }
+    .post::before {
+      content: ""; position: absolute; left: 0; top: 20px;
+      width: 2px; height: 15px; border-radius: 2px;
+      background: var(--red); opacity: 0.65;
+    }
+    .post:last-child { border-bottom: 0; padding-bottom: 0; }
+    .post-title { font-weight: 700; font-size: 15px; margin: 0 0 5px; }
+    .post-title a { color: #fff; text-decoration: none; }
+    .post-title a:hover { color: var(--orange); }
+    .post-meta { font-size: 12px; color: var(--muted); margin: 0 0 7px; }
+    .post-body { margin: 0; font-size: 14px; white-space: pre-wrap; color: #d6cfd8; }
+    .excerpt { color: #a89fab; }
+
+    .empty { color: var(--muted); font-size: 14px; text-align: center; padding: 28px 0; }
+    .count { color: var(--muted); font-weight: 400; font-size: 13px; }
+    .badge { display: inline-block; font-size: 11px; color: var(--orange);
+             border: 1px solid rgba(255,138,61,0.4); border-radius: 999px;
+             padding: 1px 8px; margin-left: 6px; vertical-align: 1px; }
+    mark { background: rgba(255,138,61,0.28); color: #ffd9bd; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="{{ url_for('list_page') }}">SKALA</a>
+      <h1><a href="{{ url_for('list_page') }}">미니 게시판</a></h1>
+      <p class="sub">SKALA 3) Cloud &mdash; Day 2 종합실습 · Compose · 서버 렌더링(방법 3)</p>
+      <div class="tiers">
+        <span class="tier web">Web · nginx (환영 페이지)</span>
+        <span class="arw">→</span>
+        <span class="tier was">WAS · Flask (화면 생성)</span>
+        <span class="arw">→</span>
+        <span class="tier db">DB · PostgreSQL</span>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

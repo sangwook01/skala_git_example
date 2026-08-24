@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>미니 게시판 - 3-tier 종합실습</title>
+  <style>
+    :root {
+      --bg:       #0b0a0c;
+      --bg-2:     #131114;
+      --card:     #17151a;
+      --card-2:   #1e1b21;
+      --line:     #2c272f;
+      --line-2:   #3a343e;
+      --text:     #f2eef0;
+      --muted:    #948d97;
+      --red:      #ff3b2f;   /* 로고 테두리 레드 */
+      --red-deep: #c8140c;
+      --orange:   #ff8a3d;   /* 배경 스트릭 오렌지 */
+      --teal:     #4fd1a5;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 40px 16px 72px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                   "Malgun Gothic", "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 로고 배경처럼, 화면 뒤에서 번지는 붉은 빛 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(58% 42% at 12% -6%,  rgba(255, 59, 47, 0.20), transparent 62%),
+        radial-gradient(50% 38% at 96% 8%,   rgba(255, 138, 61, 0.13), transparent 60%),
+        radial-gradient(70% 55% at 50% 108%, rgba(200, 20, 12, 0.16), transparent 66%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 로고에 있던 곡선 스트릭 */
+    body::after {
+      content: "";
+      position: fixed;
+      right: -18%;
+      bottom: -32%;
+      width: 90vw;
+      height: 90vw;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 110, 60, 0.14);
+      box-shadow:
+         0    0   0 1px rgba(255, 59, 47, 0.05),
+        -40px 0   0 0   rgba(255, 138, 61, 0.05),
+         60px 0   0 0   rgba(200, 20, 12, 0.05);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* ---------- 헤더 ---------- */
+    header { margin-bottom: 28px; }
+
+    .brand {
+      display: inline-block;
+      padding: 7px 20px 8px;
+      margin-bottom: 18px;
+      border: 1.5px solid var(--red);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,59,47,0.10), rgba(200,20,12,0.03));
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: #fff;
+      text-shadow: 0 0 14px rgba(255, 59, 47, 0.55);
+      box-shadow:
+        0 0 0 1px rgba(255, 59, 47, 0.18),
+        0 0 22px rgba(255, 59, 47, 0.30),
+        inset 0 0 18px rgba(255, 59, 47, 0.14);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -0.8px;
+      font-weight: 800;
+      background: linear-gradient(92deg, #ffffff 12%, #ffb9a8 62%, var(--red) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sub { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .tiers {
+      display: flex; gap: 8px; align-items: center;
+      margin-top: 18px; font-size: 12px; color: var(--muted);
+      flex-wrap: wrap;
+    }
+    .tier {
+      background: var(--card);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .tier.web { color: var(--red);    border-color: rgba(255, 59, 47, 0.45);  box-shadow: 0 0 14px rgba(255, 59, 47, 0.16); }
+    .tier.was { color: var(--orange); border-color: rgba(255, 138, 61, 0.42); box-shadow: 0 0 14px rgba(255, 138, 61, 0.14); }
+    .tier.db  { color: var(--teal);   border-color: rgba(89, 206, 167, 0.38); box-shadow: 0 0 14px rgba(79, 209, 165, 0.12); }
+    .arw { color: #5c545f; font-weight: 700; }
+
+    /* ---------- 카드 ---------- */
+    .card {
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .card h2::before {
+      content: "";
+      width: 3px; height: 15px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--red), var(--orange));
+      box-shadow: 0 0 10px rgba(255, 59, 47, 0.6);
+    }
+
+    label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 5px; color: #cfc7d0; }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      border: 1px solid var(--line-2);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #100e12;
+      color: var(--text);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    input::placeholder, textarea::placeholder { color: #6c646f; }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(255, 59, 47, 0.16);
+    }
+    textarea { resize: vertical; min-height: 88px; }
+
+    button {
+      background: linear-gradient(180deg, #ff4b3c, var(--red-deep));
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.2px;
+      box-shadow: 0 0 20px rgba(255, 59, 47, 0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: filter .15s, box-shadow .15s;
+    }
+    button:hover { filter: brightness(1.12); box-shadow: 0 0 28px rgba(255, 59, 47, 0.5), inset 0 1px 0 rgba(255,255,255,0.18); }
+    button:disabled { background: #38323c; color: #857d88; box-shadow: none; cursor: not-allowed; }
+
+    .row { display: flex; gap: 14px; }
+    .row > div { flex: 1; }
+
+    .status { font-size: 13px; min-height: 20px; margin-top: 6px; color: var(--muted); }
+    .status.ok  { color: var(--teal); }
+    .status.err { color: #ff6a5c; }
+
+    /* ---------- 글 목록 ---------- */
+    .post {
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0 16px 14px;
+      position: relative;
+    }
+    .post::before {
+      content: "";
+      position: absolute; left: 0; top: 18px;
+      width: 2px; height: 15px;
+      border-radius: 2px;
+      background: var(--red);
+      opacity: 0.65;
+    }
+    .post:last-child { border-bottom: 0; padding-bottom: 0; }
+    .post-title { font-weight: 700; font-size: 15px; margin: 0 0 5px; color: #fff; }
+    .post-meta  { font-size: 12px; color: var(--muted); margin: 0 0 7px; }
+    .post-body  { margin: 0; font-size: 14px; white-space: pre-wrap; color: #d6cfd8; }
+
+    .empty { color: var(--muted); font-size: 14px; text-align: center; padding: 28px 0; }
+    .count { color: var(--muted); font-weight: 400; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">SKALA</div>
+      <h1>미니 게시판</h1>
+      <p class="sub">SKALA 3) Cloud &mdash; Day 1 종합실습 · 3-tier 컨테이너 앱</p>
+      <div class="tiers">
+        <span class="tier web">Web · nginx</span> <span class="arw">→</span>
+        <span class="tier was">WAS · Flask</span> <span class="arw">→</span>
+        <span class="tier db">DB · PostgreSQL</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>글쓰기</h2>
+      <form id="post-form">
+        <div class="row">
+          <div>
+            <label for="author">작성자</label>
+            <input id="author" name="author" maxlength="50" placeholder="김상욱" required />
+          </div>
+          <div>
+            <label for="title">제목</label>
+            <input id="title" name="title" maxlength="200" placeholder="첫 번째 글" required />
+          </div>
+        </div>
+        <label for="content">내용</label>
+        <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
+        <button type="submit" id="submit-btn">저장하기</button>
+        <div class="status" id="form-status"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>글 목록 <span class="count" id="count"></span></h2>
+      <div id="list"><div class="empty">불러오는 중…</div></div>
+    </div>
+  </div>
+
+  <script>
+    // 화면(Web)은 DB 를 직접 모른다. 데이터는 전부 WAS 에게 부탁한다.
+    // WAS 는 docker run 의 -p 5001:5000 옵션으로 5001 번 문에 열려 있다.
+    const WAS = 'http://' + location.hostname + ':5001';
+    const API = WAS + '/api/posts';
+
+    const listEl   = document.getElementById('list');
+    const countEl  = document.getElementById('count');
+    const statusEl = document.getElementById('form-status');
+    const btnEl    = document.getElementById('submit-btn');
+    const formEl   = document.getElementById('post-form');
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function setStatus(msg, kind) {
+      statusEl.textContent = msg;
+      statusEl.className = 'status' + (kind ? ' ' + kind : '');
+    }
+
+    async function loadPosts() {
+      try {
+        const res = await fetch(API);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        countEl.textContent = '(' + data.count + '건)';
+
+        if (data.count === 0) {
+          listEl.innerHTML = '<div class="empty">아직 글이 없습니다. 첫 글을 남겨보세요.</div>';
+          return;
+        }
+
+        listEl.innerHTML = data.posts.map(function (p) {
+          return '<div class="post">' +
+                   '<p class="post-title">' + escapeHtml(p.title) + '</p>' +
+                   '<p class="post-meta">' + escapeHtml(p.author) + ' · ' + escapeHtml(p.created_at) + '</p>' +
+                   '<p class="post-body">' + escapeHtml(p.content) + '</p>' +
+                 '</div>';
+        }).join('');
+      } catch (err) {
+        listEl.innerHTML = '<div class="empty">목록을 불러오지 못했습니다 (' + escapeHtml(err.message) + ')<br>' +
+                           'docker logs board-was 로 WAS 상태를 확인해보세요.</div>';
+      }
+    }
+
+    formEl.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      btnEl.disabled = true;
+      setStatus('저장 중…');
+
+      const payload = {
+        author:  document.getElementById('author').value,
+        title:   document.getElementById('title').value,
+        content: document.getElementById('content').value
+      };
+
+      try {
+        const res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || ('HTTP ' + res.status));
+
+        setStatus('저장 완료 (id=' + data.id + ') — DB 에 기록되었습니다.', 'ok');
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+        loadPosts();
+      } catch (err) {
+        setStatus('저장 실패: ' + err.message, 'err');
+      } finally {
+        btnEl.disabled = false;
+      }
+    });
+
+    loadPosts();
+  </script>
+</body>
+</html>

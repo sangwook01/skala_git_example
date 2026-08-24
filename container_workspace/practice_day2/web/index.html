@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>미니 게시판 · SKALA</title>
+  <style>
+    :root {
+      --bg:       #0b0a0c;
+      --card:     #17151a;
+      --card-2:   #1e1b21;
+      --line:     #2c272f;
+      --line-2:   #3a343e;
+      --text:     #f2eef0;
+      --muted:    #948d97;
+      --red:      #ff3b2f;
+      --red-deep: #c8140c;
+      --orange:   #ff8a3d;
+      --teal:     #4fd1a5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                   "Malgun Gothic", "Noto Sans KR", sans-serif;
+      line-height: 1.6; position: relative; overflow: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(58% 42% at 12% -6%,  rgba(255, 59, 47, 0.20), transparent 62%),
+        radial-gradient(50% 38% at 96% 8%,   rgba(255, 138, 61, 0.13), transparent 60%),
+        radial-gradient(70% 55% at 50% 108%, rgba(200, 20, 12, 0.16), transparent 66%);
+    }
+    body::after {
+      content: ""; position: fixed; right: -18%; bottom: -32%;
+      width: 90vw; height: 90vw; border-radius: 50%;
+      border: 1px solid rgba(255, 110, 60, 0.14); pointer-events: none;
+    }
+
+    .welcome {
+      position: relative; z-index: 1;
+      text-align: center; padding: 40px 24px; max-width: 560px;
+    }
+    .brand {
+      display: inline-block; padding: 7px 20px 8px; margin-bottom: 22px;
+      border: 1.5px solid var(--red); border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,59,47,0.10), rgba(200,20,12,0.03));
+      font-size: 15px; font-weight: 800; letter-spacing: 2.5px; color: #fff;
+      text-shadow: 0 0 14px rgba(255, 59, 47, 0.55);
+      box-shadow: 0 0 0 1px rgba(255,59,47,0.18), 0 0 22px rgba(255,59,47,0.30),
+                  inset 0 0 18px rgba(255,59,47,0.14);
+    }
+    h1 {
+      margin: 0 0 10px; font-size: 32px; letter-spacing: -0.8px; font-weight: 800;
+      background: linear-gradient(92deg, #ffffff 12%, #ffb9a8 62%, var(--red) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sub { margin: 0 0 30px; color: var(--muted); font-size: 14px; }
+
+    .flow {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; flex-wrap: wrap; margin-bottom: 30px; font-size: 12px;
+    }
+    .tier { background: var(--card); border: 1px solid var(--line-2);
+            border-radius: 999px; padding: 5px 14px; font-weight: 700; }
+    .tier.web { color: var(--red); border-color: rgba(255,59,47,0.45); }
+    .tier.was { color: var(--orange); border-color: rgba(255,138,61,0.42); }
+    .tier.db  { color: var(--teal); border-color: rgba(79,209,165,0.38); }
+    .arw { color: #5c545f; font-weight: 700; }
+
+    .note {
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+      border: 1px solid var(--line); border-left: 3px solid var(--orange);
+      border-radius: 10px; padding: 16px 18px; margin-bottom: 26px;
+      font-size: 13px; color: #bdb4c0; text-align: left;
+    }
+    .note b { color: var(--text); }
+
+    .btn {
+      display: inline-block; text-decoration: none;
+      background: linear-gradient(180deg, #ff4b3c, var(--red-deep));
+      color: #fff; border: 0; border-radius: 8px; padding: 13px 28px;
+      font-size: 15px; font-weight: 700;
+      box-shadow: 0 0 20px rgba(255,59,47,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: filter .15s;
+    }
+    .btn:hover { filter: brightness(1.12); }
+
+    .redirect { margin-top: 18px; font-size: 12.5px; color: var(--muted); min-height: 20px; }
+    .redirect a { color: var(--orange); }
+  </style>
+</head>
+<body>
+  <div class="welcome">
+    <div class="brand">SKALA</div>
+    <h1>미니 게시판</h1>
+    <p class="sub">SKALA 3) Cloud &mdash; Day 2 종합실습 · Docker Compose</p>
+
+    <div class="flow">
+      <span class="tier web">Web · nginx</span>
+      <span class="arw">→</span>
+      <span class="tier was">WAS · Flask</span>
+      <span class="arw">→</span>
+      <span class="tier db">DB · PostgreSQL</span>
+    </div>
+
+    <div class="note">
+      이 페이지는 <b>web 컨테이너(nginx)</b>가 주는 정적 환영 화면입니다.<br>
+      게시판의 모든 화면은 <b>was 컨테이너(Flask)</b>가 직접 HTML 로 만들어 응답합니다.
+      <b>(백엔드 개발 방법 3 — 서버 렌더링)</b>
+    </div>
+
+    <a class="btn" id="enter" href="#">게시판 들어가기</a>
+    <p class="redirect" id="redirect"></p>
+  </div>
+
+  <script>
+    // web 은 정적 파일이라 환경 변수를 받을 수 없어 WAS 주소를 여기에 적는다.
+    // .env 의 WAS_PORT 와 반드시 같아야 한다.
+    const WAS_PORT = 5001;
+    const WAS_URL  = 'http://' + location.hostname + ':' + WAS_PORT + '/';
+
+    document.getElementById('enter').href = WAS_URL;
+
+    // 방법 3 — 환영 페이지를 잠깐 보여준 뒤 WAS 가 만든 화면으로 이동시킨다.
+    let left = 3;
+    const el = document.getElementById('redirect');
+    function tick() {
+      el.innerHTML = left + '초 후 자동으로 이동합니다 · ' +
+                     '<a href="' + WAS_URL + '">' + WAS_URL + '</a>';
+      if (left-- <= 0) { location.href = WAS_URL; return; }
+      setTimeout(tick, 1000);
+    }
+    tick();
+  </script>
+</body>
+</html>

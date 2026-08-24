@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}글 목록{% endblock %}
+
+{% block content %}
+
+<div class="card">
+  <h2>검색</h2>
+  <form class="search" method="get" action="{{ url_for('list_page') }}">
+    <input type="text" name="q" value="{{ keyword }}"
+           placeholder="제목 · 내용 · 작성자로 검색" />
+    <button class="btn" type="submit">검색</button>
+    {% if keyword %}
+      <a class="btn ghost" href="{{ url_for('list_page') }}">전체보기</a>
+    {% endif %}
+  </form>
+</div>
+
+<div class="card">
+  <h2>
+    글 목록
+    <span class="count">
+      ({{ posts|length }}건{% if keyword %} · "{{ keyword }}" 검색 결과{% endif %})
+    </span>
+  </h2>
+
+  {% if posts %}
+    {% for post in posts %}
+      <div class="post">
+        <p class="post-title">
+          <a href="{{ url_for('detail_page', post_id=post.id) }}">{{ post.title }}</a>
+          {% if post.updated_at %}<span class="badge">수정됨</span>{% endif %}
+        </p>
+        <p class="post-meta">
+          #{{ post.id }} · {{ post.author }} · {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+        </p>
+        <p class="post-body excerpt">{{ post.content[:80] }}{% if post.content|length > 80 %}…{% endif %}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">
+      {% if keyword %}
+        "{{ keyword }}" 에 해당하는 글이 없습니다.
+      {% else %}
+        아직 글이 없습니다. 첫 글을 남겨보세요.
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="actions">
+  <a class="btn" href="{{ url_for('new_page') }}">글쓰기</a>
+</div>
+
+{% endblock %}

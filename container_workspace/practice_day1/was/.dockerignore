@@ -1,0 +1,11 @@
+# 이미지 안에 들어갈 필요가 없는 것들 (COPY . . 로 딸려 들어가지 않도록)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+.git/
+.gitignore
+*.md
+.DS_Store

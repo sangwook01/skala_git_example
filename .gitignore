@@ -89,4 +89,4 @@ env/
 *.swp
 local.properties
 application-local.yml
-application-local.properties
+application-local.propertiesnode_modules/

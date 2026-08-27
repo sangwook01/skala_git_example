@@ -13,13 +13,18 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "axios": "^1.20.0",
+    "echarts": "^6.1.0",
+    "naive-ui": "^2.45.2",
     "pinia": "^3.0.4",
     "vue": "^3.5.32",
+    "vue-echarts": "^8.1.0",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@vitejs/plugin-vue": "^6.0.6",
+    "@vue/eslint-config-prettier": "^10.2.0",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",

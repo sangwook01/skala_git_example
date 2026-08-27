@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # docker compose 는 프로젝트 루트의 .env 를 자동으로 읽어
+        # 아래 ${} 자리에 값을 채워 빌드 인자로 전달한다.
+        VITE_OPENWEATHER_API_KEY: ${VITE_OPENWEATHER_API_KEY}
+    image: skala-vue-web
+    container_name: skala-vue-web
+    ports:
+      - '8080:80'
+    restart: unless-stopped

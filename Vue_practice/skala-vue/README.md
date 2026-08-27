@@ -1,7 +1,5 @@
 # SKALA Vue.js 실습 — Weather Application
 
-**배포 주소** : https://skala-vue-xxxx.vercel.app
-**저장소** : https://github.com/사용자명/skala-vue
 
 OpenWeatherMap API로 지역별 날씨를 조회하는 대시보드입니다.
 Vue 3의 기능을 ver1부터 ver7까지 단계적으로 적용하며 만들었고, 각 단계의 코드를 모두 보존합니다.
